@@ -47,7 +47,7 @@ vnoremap("<leader>g", "ggVG<CR>", silent)
 nnoremap("<leader>g", "ggVG<CR>", silent)
 
 -- apply formatting
-nnoremap("<leader>f", vim.lsp.buf.format)
+-- nnoremap("<leader>f", vim.lsp.buf.format)
 
 -- terminal
 nnoremap("<leader>t", "<Cmd>sp<CR> <Cmd>term<CR> <Cmd>resize 13N<CR> i", silent)

@@ -9,7 +9,7 @@ local options = {
   errorbells = false,
   expandtab = true,
   fileencoding = "utf-8",
-  -- guicursor = "a:block",
+  guicursor = "a:block",
   guifont = "MesloLGS NF:h18",
   hidden = true,
   hlsearch = false,
@@ -51,6 +51,11 @@ autocmd FileType javascript setlocal shiftwidth=2
 autocmd FileType javascriptreact setlocal shiftwidth=2
 autocmd FileType typescript setlocal shiftwidth=2
 autocmd FileType typescriptreact setlocal shiftwidth=2
+autocmd FileType json setlocal shiftwidth=2
+autocmd FileType yaml setlocal shiftwidth=2
+autocmd FileType html setlocal shiftwidth=2
+autocmd FileType css setlocal shiftwidth=2
+autocmd FileType lua setlocal shiftwidth=2
 augroup END
 ]])
 
