@@ -15,27 +15,53 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- LSP
   {
-    'neovim/nvim-lspconfig',
+    "VonHeikemen/lsp-zero.nvim",
+    branch = "v2.x",
     dependencies = {
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
-      'folke/neodev.nvim',
-      { 'j-hui/fidget.nvim', opts = {} },
-    },
-  },
-  {
-    -- Autocompletion
-    'hrsh7th/nvim-cmp',
-    dependencies = {
-      -- Snippet Engine & its associated nvim-cmp source
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
+      -- LSP Support
+      { "neovim/nvim-lspconfig" },
+      { "williamboman/mason.nvim" },
+      { "williamboman/mason-lspconfig.nvim" },
 
-      -- Adds LSP completion capabilities
-      'hrsh7th/cmp-nvim-lsp',
-      'rafamadriz/friendly-snippets',
+      -- Autocompletion
+      { "hrsh7th/nvim-cmp" },
+      { "hrsh7th/cmp-buffer" },
+      { "hrsh7th/cmp-path" },
+      { "saadparwaiz1/cmp_luasnip" },
+      { "hrsh7th/cmp-nvim-lsp" },
+      { "hrsh7th/cmp-nvim-lua" },
+
+      -- Snippets
+      { "L3MON4D3/LuaSnip",                 version = "2.*" },
+      { "rafamadriz/friendly-snippets" },
+      { "honza/vim-snippets" },
+      { "folke/neodev.nvim" },
+      { "j-hui/fidget.nvim",                opts = {} },
     },
   },
+
+  -- {
+  --   'neovim/nvim-lspconfig',
+  --   dependencies = {
+  --     'williamboman/mason.nvim',
+  --     'williamboman/mason-lspconfig.nvim',
+  --     'folke/neodev.nvim',
+  --     { 'j-hui/fidget.nvim', opts = {} },
+  --   },
+  -- },
+  -- {
+  --   -- Autocompletion
+  --   'hrsh7th/nvim-cmp',
+  --   dependencies = {
+  --     -- Snippet Engine & its associated nvim-cmp source
+  --     'L3MON4D3/LuaSnip',
+  --     'saadparwaiz1/cmp_luasnip',
+  --
+  --     -- Adds LSP completion capabilities
+  --     'hrsh7th/cmp-nvim-lsp',
+  --     'rafamadriz/friendly-snippets',
+  --   },
+  -- },
   {
     'nvim-lualine/lualine.nvim',
     opts = {
@@ -102,7 +128,7 @@ require('lazy').setup({
   { "kevinhwang91/nvim-bqf",      ft = "qf" },
   { "mbbill/undotree" },
   { "nvim-pack/nvim-spectre",     opts = {} },
-  { "tpope/vim-surround" },
+  { "tpope/vim-surround",         opts = {} },
   { "uga-rosa/ccc.nvim",          opts = {} },
 
   -- looks
