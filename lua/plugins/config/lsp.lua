@@ -1,3 +1,40 @@
+local conform = require("conform")
+
+conform.setup({
+  formatters_by_ft = {
+    lua = { "stylua" },
+    python = function(bufnr)
+      if require("conform").get_formatter_info("ruff_format", bufnr).available then
+        return { "isort", "ruff_format" }
+      else
+        return { "isort", "black" }
+      end
+    end,
+    javascript = { { "prettierd", "prettier" } },
+    typescript = { "prettier" },
+    javascriptreact = { "prettier" },
+    typescriptreact = { "prettier" },
+    svelte = { "prettier" },
+    css = { "prettier" },
+    html = { "prettier" },
+    json = { "prettier" },
+    yaml = { "prettier" },
+    markdown = { "prettier" },
+    graphql = { "prettier" },
+  },
+  format_on_save = {
+    timeout_ms = 1000,
+    lsp_fallback = true,
+  },
+})
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function(args)
+    conform.format({ bufnr = args.buf })
+  end,
+})
+
 local on_attach = function(_, bufnr)
   local nmap = function(keys, func, desc)
     if desc then
@@ -10,15 +47,15 @@ local on_attach = function(_, bufnr)
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
-  nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+  nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
   nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-  nmap('<leader>f', vim.lsp.buf.format, '[F]ormat')
+  nmap('<leader>f', function() conform.format({ lsp_fallback = true, async = false, timeout_ms = 1000 }) end, '[F]ormat')
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -35,7 +72,7 @@ require('mason-lspconfig').setup()
 local servers = {
   -- clangd = {},
   -- gopls = {},
-  rust_analyzer = {},
+  -- rust_analyzer = {},
   tsserver = {
     settings = {
       formatting = true,
@@ -43,7 +80,7 @@ local servers = {
         tabSize = 2,
         useTabs = false,
       },
-    },
+    }
   },
   efm = {
     init_options = { documentFormatting = true },
@@ -57,34 +94,48 @@ local servers = {
       }
     }
   },
-  html = { filetypes = { 'html', 'twig', 'hbs' } },
+  html = {
+    filetypes = { "html", "htmldjango" }, -- Add "django-html" as a recognized filetype
+    settings = {
+      html = {
+        suggest = {
+          -- Add any Django-specific settings here
+          completionItem = {
+            -- Example: trigger completion on "{{" in Django templates
+            triggerCharacters = { "{" },
+          },
+        },
+      },
+    },
+  },
   pylsp = {
-    plugins = {
-      flake8 = {
-        enabled = true,
-        ignore = { "E501", "E126", "E121", "E123" }
-      },
-      mccabe = {
-        enabled = true
-      },
-      pyflakes = {
-        enabled = true
-      },
-      black = {
-        enabled = true
-      },
-      isort = {
-        enabled = true
-      },
+    filetypes = { 'python' },
+    settings = {
+      pylsp = {
+        plugins = {
+          -- formatter options
+          mccabe = { enabled = true },
+          black = { enabled = false },
+          autopep8 = { enabled = false },
+          yapf = { enabled = false },
+          -- linter options
+          pylint = { enabled = false, executable = "pylint" },
+          pyflakes = { enabled = false },
+          pycodestyle = { enabled = true, ignore = { "E501" } },
+          flake8 = { enabled = true, ignore = { "E501" } },
+        }
+      }
     }
   },
   lua_ls = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-      diagnostics = { disable = { 'missing-fields' } },
-    },
-  },
+    settings = {
+      Lua = {
+        workspace = { checkThirdParty = false },
+        telemetry = { enable = false },
+        diagnostics = { disable = { 'missing-fields' } },
+      }
+    }
+  }
 }
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
@@ -97,12 +148,13 @@ mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
 }
 
+
 mason_lspconfig.setup_handlers {
   function(server_name)
     require('lspconfig')[server_name].setup {
       capabilities = capabilities,
       on_attach = on_attach,
-      settings = servers[server_name],
+      settings = servers[server_name].settings,
       filetypes = (servers[server_name] or {}).filetypes,
     }
   end,

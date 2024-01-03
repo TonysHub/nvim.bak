@@ -20,7 +20,9 @@ require('lazy').setup({
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
       'folke/neodev.nvim',
-      { 'j-hui/fidget.nvim', opts = {} },
+      "astral-sh/ruff-lsp",
+      { 'stevearc/conform.nvim', opts = {} },
+      { 'j-hui/fidget.nvim',     opts = {} },
     },
   },
   {
@@ -96,6 +98,8 @@ require('lazy').setup({
 
   -- text editing
   { "mg979/vim-visual-multi" },
+  { "paradoxxxzero/pyls-isort" },
+  { "python-lsp/python-lsp-black" },
 
   -- misc
   { "echasnovski/mini.bufremove", version = "*" },
@@ -116,12 +120,9 @@ require('lazy').setup({
   { 'norcalli/nvim-colorizer.lua' },
   { 'nathanaelkane/vim-indent-guides' },
 
-
-
-
-
   -- plugins with import settings
   { import = 'plugins.load' },
+  { import = 'plugins.debug',         lazy = true }
 }, {})
 
 require('telescope').setup {
