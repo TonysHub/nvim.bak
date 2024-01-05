@@ -56,11 +56,12 @@ require('lazy').setup({
     },
     build = ':TSUpdate',
   },
+  { "nvim-treesitter/nvim-treesitter-context" },
 
   -- nice to have
   { 'folke/which-key.nvim' },
   { "folke/zen-mode.nvim" },
-  { 'lukas-reineke/indent-blankline.nvim', main = 'ibl' },
+  { 'lukas-reineke/indent-blankline.nvim',    main = 'ibl' },
   {
     "numToStr/Comment.nvim",
     lazy = false,
@@ -77,10 +78,13 @@ require('lazy').setup({
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
     dependencies = {
-      'nvim-lua/plenary.nvim',
+      -- 'nvim-lua/plenary.nvim',
       {
         'nvim-telescope/telescope-fzf-native.nvim',
         build = 'make',
+        cond = function()
+          return vim.fn.executable 'make' == 1
+        end,
       },
     },
   },
@@ -124,17 +128,6 @@ require('lazy').setup({
   { import = 'plugins.load' },
   { import = 'plugins.debug',         lazy = true }
 }, {})
-
-require('telescope').setup {
-  defaults = {
-    mappings = {
-      i = {
-        ['<C-u>'] = false,
-        ['<C-d>'] = false,
-      },
-    },
-  },
-}
 
 -- Setup neovim lua configuration
 require('neodev').setup()

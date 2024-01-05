@@ -1,6 +1,7 @@
 local Remap = require("tonylee.keymap")
 local nnoremap = Remap.nnoremap
 local harpoon = require("harpoon")
+local silent = { silent = true }
 
 harpoon:setup({})
 

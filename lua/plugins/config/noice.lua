@@ -42,12 +42,12 @@ require("noice").setup({
         lsp_doc_border = false,       -- add a border to hover docs and signature help
     },
     throttle = 1000 / 120,
-    -- routes = {
-    --   {
-    --     filter = { event = "msg_show", kind = "", find = "written" },
-    --     opts = { skip = true },
-    --   },
-    -- },
+    routes = {
+        {
+            filter = { event = "msg_show", kind = "", find = "written" },
+            opts = { skip = true },
+        },
+    },
     views = {
         cmdline_popup = {
             position = { row = vim.o.lines * 0.32, col = "50%" },

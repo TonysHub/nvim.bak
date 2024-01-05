@@ -45,18 +45,18 @@ local options = {
 vim.opt.shortmess:append("IsF")
 
 vim.cmd([[
-augroup FileTypeOverrides
-autocmd!
-autocmd FileType javascript setlocal shiftwidth=2
-autocmd FileType javascriptreact setlocal shiftwidth=2
-autocmd FileType typescript setlocal shiftwidth=2
-autocmd FileType typescriptreact setlocal shiftwidth=2
-autocmd FileType json setlocal shiftwidth=2
-autocmd FileType yaml setlocal shiftwidth=2
-autocmd FileType html setlocal shiftwidth=2
-autocmd FileType css setlocal shiftwidth=2
-autocmd FileType lua setlocal shiftwidth=2
-augroup END
+  augroup FileTypeOverrides
+  autocmd!
+  autocmd FileType javascript setlocal shiftwidth=2
+  autocmd FileType javascriptreact setlocal shiftwidth=2
+  autocmd FileType typescript setlocal shiftwidth=2
+  autocmd FileType typescriptreact setlocal shiftwidth=2
+  autocmd FileType json setlocal shiftwidth=2
+  autocmd FileType yaml setlocal shiftwidth=2
+  autocmd FileType html setlocal shiftwidth=2
+  autocmd FileType css setlocal shiftwidth=2
+  autocmd FileType lua setlocal shiftwidth=2
+  augroup END
 ]])
 
 for option, value in pairs(options) do

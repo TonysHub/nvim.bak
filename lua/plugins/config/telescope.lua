@@ -1,9 +1,8 @@
-pcall(require('telescope').load_extension, 'fzf')
-
 local Remap = require("tonylee.keymap")
 local nnoremap = Remap.nnoremap
 local vnoremap = Remap.vnoremap
 
+local actions = require("telescope.actions")
 local function find_git_root()
   local current_file = vim.api.nvim_buf_get_name(0)
   local current_dir
@@ -50,7 +49,6 @@ end
 vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
 
 nnoremap('<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-nnoremap('<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
 nnoremap('<leader>/', function()
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
     winblend = 10,
@@ -65,7 +63,7 @@ local function telescope_live_grep_open_files()
   }
 end
 nnoremap('<leader>p/', telescope_live_grep_open_files, { desc = '[S]earch [/] in Open Files' })
-nnoremap('<leader>sg', require('telescope.builtin').builtin, { desc = '[S]earch [S]elect Telescope' })
+-- nnoremap('<leader>sg', require('telescope.builtin').builtin, { desc = '[S]earch [S]elect Telescope' })
 nnoremap('<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
 nnoremap('<leader>pf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 nnoremap('<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
@@ -79,8 +77,15 @@ vnoremap('<leader>ps', function()
   require('telescope.builtin').live_grep({ default_text = text })
 end, { desc = '[S]earch [V]isual [S]election' })
 
+
 require("telescope").setup({
   defaults = {
+    mappings = {
+      i = {
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-j>"] = actions.move_selection_next,
+      },
+    },
     layout_config = {
       width = 0.85,
       preview_cutoff = 120,

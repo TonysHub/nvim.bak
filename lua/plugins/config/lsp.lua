@@ -25,6 +25,7 @@ conform.setup({
   format_on_save = {
     timeout_ms = 1000,
     lsp_fallback = true,
+    async = true,
   },
 })
 
@@ -102,7 +103,7 @@ local servers = {
           -- Add any Django-specific settings here
           completionItem = {
             -- Example: trigger completion on "{{" in Django templates
-            triggerCharacters = { "{" },
+            triggerCharacters = { "{{" },
           },
         },
       },
@@ -114,7 +115,7 @@ local servers = {
       pylsp = {
         plugins = {
           -- formatter options
-          mccabe = { enabled = true },
+          mccabe = { enabled = true, threshold = 20 },
           black = { enabled = false },
           autopep8 = { enabled = false },
           yapf = { enabled = false },
@@ -128,6 +129,7 @@ local servers = {
     }
   },
   lua_ls = {
+    filetypes = { 'lua' },
     settings = {
       Lua = {
         workspace = { checkThirdParty = false },
@@ -150,12 +152,33 @@ mason_lspconfig.setup {
 
 
 mason_lspconfig.setup_handlers {
-  function(server_name)
-    require('lspconfig')[server_name].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = servers[server_name].settings,
-      filetypes = (servers[server_name] or {}).filetypes,
-    }
-  end,
+  require('lspconfig').efm.setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = servers.efm.settings,
+    filetypes = servers.efm.filetypes,
+  },
+  require('lspconfig').html.setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = servers.html.settings,
+    filetypes = servers.html.filetypes,
+  },
+  require('lspconfig').lua_ls.setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = servers.lua_ls.settings,
+    filetypes = servers.lua_ls.filetypes,
+  },
+  require('lspconfig').pylsp.setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = servers.pylsp.settings,
+    filetypes = servers.pylsp.filetypes,
+  },
+  require('lspconfig').tsserver.setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = servers.tsserver.settings,
+  },
 }
