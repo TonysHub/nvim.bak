@@ -22,7 +22,6 @@ require('lazy').setup({
       'folke/neodev.nvim',
       "astral-sh/ruff-lsp",
       { 'stevearc/conform.nvim', opts = {} },
-      { 'j-hui/fidget.nvim',     opts = {} },
     },
   },
   {
@@ -43,7 +42,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
+        theme = 'kanagawa',
         component_separators = '|',
         section_separators = '',
       },

@@ -36,7 +36,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
   local nmap = function(keys, func, desc)
     if desc then
       desc = 'LSP: ' .. desc
@@ -64,6 +64,14 @@ local on_attach = function(_, bufnr)
   nmap('<leader>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, '[W]orkspace [L]ist Folders')
+  client.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+      virtual_text = true,
+      underline = true, -- You can adjust the diagnostic display here
+      signs = true,
+      update_in_insert = false,
+    }
+  )
 end
 
 -- mason requires this order of setup
@@ -122,8 +130,8 @@ local servers = {
           -- linter options
           pylint = { enabled = false, executable = "pylint" },
           pyflakes = { enabled = false },
-          pycodestyle = { enabled = true, ignore = { "E501" } },
-          flake8 = { enabled = true, ignore = { "E501" } },
+          pycodestyle = { enabled = true, ignore = { "E501", "W503" } },
+          flake8 = { enabled = true, ignore = { "E501", "W503" } },
         }
       }
     }

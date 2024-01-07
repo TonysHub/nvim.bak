@@ -1,6 +1,7 @@
 local Remap = require("tonylee.keymap")
 local nnoremap = Remap.nnoremap
 local vnoremap = Remap.vnoremap
+local silent = { silent = true }
 
 local actions = require("telescope.actions")
 local function find_git_root()
@@ -67,8 +68,11 @@ nnoremap('<leader>p/', telescope_live_grep_open_files, { desc = '[S]earch [/] in
 nnoremap('<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
 nnoremap('<leader>pf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 nnoremap('<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-nnoremap('<leader>pw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-nnoremap('<leader>ps', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
+-- nnoremap('<leader>pw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
+-- nnoremap('<leader>ps', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
+nnoremap("<leader>ps", function()
+  require('telescope.builtin').grep_string({ search = vim.fn.input("Grep > ") });
+end, silent)
 nnoremap('<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
 nnoremap('<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 nnoremap('<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })

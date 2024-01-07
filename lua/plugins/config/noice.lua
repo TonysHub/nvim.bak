@@ -25,6 +25,7 @@ require("noice").setup({
         },
     },
     lsp = {
+        enabled = true,
         progress = {
             enabled = false
         },
@@ -33,6 +34,7 @@ require("noice").setup({
             ["vim.lsp.util.stylize_markdown"] = true,
             ["cmp.entry.get_documentation"] = true,
         },
+        icons_enabled = true, -- Disable icons for LSP messages
     },
     presets = {
         bottom_search = true,         -- use a classic bottom cmdline for search
@@ -44,7 +46,11 @@ require("noice").setup({
     throttle = 1000 / 120,
     routes = {
         {
-            filter = { event = "msg_show", kind = "", find = "written" },
+            filter = {
+                event = 'msg_show',
+                kind = '',
+                find = 'more line',
+            },
             opts = { skip = true },
         },
     },
