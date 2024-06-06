@@ -10,6 +10,7 @@ conform.setup({
         return { "isort", "black" }
       end
     end,
+    elixir = { "mix" },
     javascript = { { "prettierd", "prettier" } },
     typescript = { "prettier" },
     javascriptreact = { "prettier" },
@@ -103,6 +104,16 @@ local servers = {
       }
     }
   },
+  elixirls = {
+    filetypes = { "elixir" },
+    settings = {
+      elixirLS = {
+        dialyzerEnabled = true,
+        fetchDeps = true,
+        suggestSpecs = true,
+      }
+    }
+  },
   html = {
     filetypes = { "html", "htmldjango" }, -- Add "django-html" as a recognized filetype
     settings = {
@@ -165,6 +176,12 @@ mason_lspconfig.setup_handlers {
     on_attach = on_attach,
     settings = servers.efm.settings,
     filetypes = servers.efm.filetypes,
+  },
+  require('lspconfig').elixirls.setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = servers.elixirls.settings,
+    filetypes = servers.elixirls.filetypes,
   },
   require('lspconfig').html.setup {
     capabilities = capabilities,
