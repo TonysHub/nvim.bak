@@ -9,7 +9,7 @@ $ brew install install fd ripgrep wget gcc gzip gnu-tar gnu-sed git curl lazygit
 $ cd .config
 ```
 ```
-$ git clone https://github.com/TonysHub/nvim.git
+$ git clone https://github.com/minscc/nvim.git
 ```
 
 You're good to go
